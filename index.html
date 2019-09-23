@@ -99,25 +99,20 @@
             let playerChoice, i, roundScore;
             let gameScore = 0;
 
-            //
+            // Play 5 rounds of Rock, Paper, Scissors
             for (i=0; i < 5; i++){
                 // Prompt the player to choose an option
                 playerChoice = prompt("Choose Rock, Paper, or Scissors");
 
-                // Get the computer's choice
                 computerChoice = computerPlay();
 
-                // Play a round and get the score
                 roundScore = playRound(playerChoice, computerChoice);
 
-                // Provide the player a message if they won, lost, or tied
                 console.log(reportRound(roundScore, playerChoice, computerChoice));
 
-                // Keep track of the score of the game
                 gameScore += roundScore;
             }
 
-            // Report the game w
             console.log(reportGame(gameScore));
         }
   </script>
