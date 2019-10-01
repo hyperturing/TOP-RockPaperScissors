@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rock Paper Scissors </title>
+  <style>
+    input {
+      font-size: 2em;
+      margin: 10px 1px 0;
+    }
+  </style>
+</head>
+<body>
+    <div id="choices">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+  <script>
+      playGame();
+      
+      function computerPlay() {
+          //Generate a random number between 1 and 3
+          let choice = Math.floor(Math.random() * 3) + 1;
+        
+          // Use our random number to choose between rock, paper, or scissors
+          switch (choice) {
+            case 1:
+                return 'Rock';
+                break;
+
+            case 2:
+                return 'Paper';
+                break;
+
+            case 3:
+                return 'Scissors';
+                break;
+          }
+      }
+
+      function playRound(playerSelection, computerSelection) {
+          let playerSelect = playerSelection.toLowerCase();
+          let computerSelect = computerSelection.toLowerCase();
+
+          // If the selections are identical, call a tie
+          if (playerSelect == computerSelect){
+              return 0;
+          } else {
+
+              // We have three choices that the user could have selected (Rock, Paper, Scissors),
+              // and we have 2 choices for our Computer, since ties are accounted for
+              switch(playerSelect)
+              {
+                case 'rock':
+                    if (computerSelect == 'paper'){
+                        return -1;
+                    }
+                    else return 1
+                    break;
+
+                case 'paper':
+                    if (computerSelect == 'scissors'){
+                        return -1;
+                    }
+                    else return 1;
+                    break;
+                
+                case 'scissors':
+                if (computerSelect == 'rock'){
+                        return -1;
+                    }
+                    else return 1;
+                    break;
+                }
+            }
+        }
+
+        function reportRound(score, player, computer) {
+            //Provide a message depending if the player won, lost, or tied the round
+            if (score == 1) {
+                return "You Win! " + player + " beats " + computer;
+            }
+            else if (score == -1){
+                return "You Lose! " + computer + " beats " + player;
+            }
+            else {
+                return "A tie!!"
+            }
+        }
+
+        function reportGame(score) {
+            //Provide a message depending if the player won, lost, or tied the game
+            if (score > 0) {
+                return "You Win the game! ";
+            }
+            else if (score < 0){
+                return "You Lose the game! ";
+            }
+            else {
+                return "You tied the game!!"
+            }
+        }
+
+        function playGame() {
+            let roundScore, computerChoice, playerChoice;
+            let round = gameScore = 0;
+
+            // List of our game buttons
+            const gameButtons = document.querySelectorAll('button');
+
+            // Container for DOM manipulation
+            const container = document.querySelector('body');
+            
+            // Container for reporting our score
+            const reportContent = document.createElement('div');
+
+            // Elements in our round report
+            const roundResults = document.createElement('p');
+            const runningScore = document.createElement('h2');
+
+            // we use the .forEach method to iterate through each button
+            gameButtons.forEach((button) => {
+                // and for each one we add a 'click' listener
+                button.addEventListener('click', (e) => {
+                    // Get our player's choices 
+                    computerChoice = computerPlay();
+                    playerChoice = e.target.textContent;
+
+                    roundScore = playRound(playerChoice, computerChoice);
+                    gameScore += roundScore;
+
+                    // Give the player a game report
+                    console.log(round == 0)
+                    if (round == 0){
+                        roundResults.textContent = reportRound(roundScore, playerChoice, computerChoice);
+                        runningScore.textContent = "Score: " + gameScore;
+
+                        reportContent.append(roundResults);
+                        reportContent.append(runningScore);
+
+                        // Append the round report to the DOM
+                        container.append(reportContent);
+                    } else {
+                        roundResults.textContent = reportRound(roundScore, playerChoice, computerChoice);
+                        runningScore.textContent = "Score: " + gameScore;
+                    }
+
+                    // Increment the number of rounds we've played
+                    round++;
+                    
+                    if (round >= 5){
+                        // Append the game results to the DOM
+                        const resultsContent = document.createElement('h1');
+                        resultsContent.classList.add('resultsContent');
+                        resultsContent.textContent = reportGame(gameScore);
+                        container.append(resultsContent);
+                    }
+
+                });
+            });
+
+        }
+    
+  </script>
+</body>
+</html>
